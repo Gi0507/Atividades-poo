@@ -1,6 +1,6 @@
 package com.fatec.ads;
 
-public class Paciente {
+public class Paciente extends funcionario {
     private int codigo;
   
     private String email;
