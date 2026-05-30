@@ -1,0 +1,65 @@
+package com.clinica.DAO;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import javax.naming.spi.DirStateFactory;
+
+import com.clinica.Bean.Agenda;
+import com.clinica.Bean.Consulta;
+import com.clinica.Bean.Medico;
+import com.clinica.Bean.Paciente;
+
+
+public class AgendaDAO {
+    private String url = "jdbc:sqlite:database.db";
+    private Connection conexao;
+    
+    public AgendaDAO() throws Exception{
+       conexao = DriverManager.getConnection(url);
+
+       String sql = """
+            CREATE TABLE IF NOT EXISTS agenda (
+                codigo INTEGER          PRIMARY KEY FOREIGN KEY REFERENCES Consulta(codigo),
+                medico TEXT             FOREIGN KEY REFERENCES medico(nome),
+                paciente TEXT           FOREIGN KEY REFERENCES paciente(nome),
+                data TEXT NOT NULL      FOREIGN KEY REFERENCES consulta(data),
+                hora TEXT NOT NULL      FOREIGN KEY REFERENCES consulta(hora)
+            )""";
+    
+
+        Statement stmt = conexao.createStatement();
+        stmt.execute(sql);
+    }
+
+    public void create(Agenda obj) throws Exception{
+        String sql = "insert into agenda(medico, paciente, data, hora) values(?,?,?,?)";
+        PreparedStatement comandoSql = conexao.prepareStatement(sql);
+        comandoSql.setString(1, obj.getMedico());
+        comandoSql.setString(2, obj.getPaciente());
+        comandoSql.setString(3, obj.getData());
+        comandoSql.setString(4, obj.getHora());
+        comandoSql.executeUpdate();
+    }
+
+    
+    public Agenda read(int codigo) throws  Exception{
+        Agenda obj = new Agenda();
+        String sql = "select * from agenda where codigo=?";
+        PreparedStatement stmt = conexao.prepareStatement(sql);
+        stmt.setInt(1, codigo);
+
+        ResultSet resultado = stmt.executeQuery();
+        if(!resultado.isClosed()){
+            obj.setMedico(resultado.getString("medico"));
+            obj.setPaciente(resultado.getString("paciente"));
+            obj.setData(resultado.getString("data"));
+            obj.setHora(resultado.getString("hora"));
+            }
+        return obj;
+    }
+    
+}
