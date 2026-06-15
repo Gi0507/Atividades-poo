@@ -18,10 +18,10 @@ public class CopiaDAO{
 
     public void update(Copia copia) {
         try {
-            String sql = "UPDATE copia codigo(autor,disponivel,titulo,ano)VALUES(?,?,?,?)";
+            String sql = "UPDATE copia SET disponivel=?,autor=?,titulo=?,ano=?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, copia.getAutor());
-            statement.setBoolean(2, copia.isDisponivel());
+            statement.setBoolean(1, copia.isDisponivel());
+            statement.setString(2, copia.getAutor());
             statement.setString(3, copia.getTitulo());
             statement.setInt(4, copia.getAno());
             

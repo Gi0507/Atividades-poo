@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
@@ -93,7 +94,7 @@ public class TelaLeitores extends JFrame {
                     javax.swing.JOptionPane.showMessageDialog(this, "Leitor não encontrado!");
                 }
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "leitor não encontrada.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         JButton atualizar = new JButton("Atualizar");
