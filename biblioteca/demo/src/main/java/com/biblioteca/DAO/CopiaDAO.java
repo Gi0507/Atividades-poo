@@ -18,7 +18,7 @@ public class CopiaDAO{
 
     public void update(Copia copia) {
         try {
-            String sql = "UPDATE copia codigo(autor,id_obra,disponivel,titulo,ano)VALUES(?,?,?,?)";
+            String sql = "UPDATE copia codigo(autor,disponivel,titulo,ano)VALUES(?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, copia.getAutor());
             statement.setBoolean(2, copia.isDisponivel());
@@ -32,13 +32,12 @@ public class CopiaDAO{
     }
     public void adicionar(Copia copia) {
         try {
-            String sql = "INSERT INTO copia (autor,disponivel,titulo,ano,id_obra) VALUES (?,?,?,?,?)";
+            String sql = "INSERT INTO copia (autor,disponivel,titulo,ano) VALUES (?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, copia.getAutor());
             statement.setBoolean(2, copia.isDisponivel());
             statement.setString(3,copia.getTitulo());
             statement.setInt(4,copia.getAno());
-            statement.setInt(5,copia.getId());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
